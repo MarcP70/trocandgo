@@ -1,0 +1,57 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - .:/workspace:cached
+    command: sleep infinity
+    ports:
+      - 8080:8080
+      - 4200:4200
+    depends_on:
+      - db
+      - redis
+    networks:
+      - devnet
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - 5432:5432
+    networks:
+      - devnet
+
+  redis:
+    image: redis:7
+    ports:
+      - 6379:6379
+    networks:
+      - devnet
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    networks:
+      - devnet
+
+
+networks:
+  devnet:
+
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:

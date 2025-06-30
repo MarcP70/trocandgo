@@ -30,3 +30,9 @@ openssl genpkey -algorithm RSA -out app.key -outform PEM
 
 Generate public key:
 openssl rsa -pubout -in app.key -out app.pub
+
+## Lancer SonarQube
+./mvnw verify sonar:sonar \
+  -Dsonar.projectKey=backend \
+  -Dsonar.host.url=http://sonarqube:9000 \
+  -Dsonar.login=squ_7e11f4ec66fc306c8982538baea99b81e0b84054
