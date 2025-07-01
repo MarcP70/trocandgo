@@ -1,0 +1,11 @@
+<h2>Liste des légumes</h2>
+
+<ul>
+  <li *ngFor="let legume of legumes">
+    {{ legume.nom }}
+  </li>
+</ul>
+
+<div *ngIf="errorMessage" style="color: red;">
+  {{ errorMessage }}
+</div>
